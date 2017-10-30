@@ -17,4 +17,9 @@ public class MainActivity extends AppCompatActivity {
         Intent TakePictureActivity = new Intent(this, PictureActivity.class);
         startActivity(TakePictureActivity);
     }
+
+    public void Import_Picture(View view){
+        Intent ImportPictureActivity = new Intent(this, ImportActivity.class);
+        startActivity(ImportPictureActivity);
+    }
 }
