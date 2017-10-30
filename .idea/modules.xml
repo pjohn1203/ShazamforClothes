@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ShazamForclothes.iml" filepath="$PROJECT_DIR$/ShazamForclothes.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ShazamforClothes.iml" filepath="$PROJECT_DIR$/ShazamforClothes.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
