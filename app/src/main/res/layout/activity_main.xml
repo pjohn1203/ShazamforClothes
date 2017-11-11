@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context="com.shazamforclothes.shazamforclothes.MainActivity">
 
+
+
     <Button
         android:id="@+id/button"
         android:layout_width="0dp"
@@ -14,6 +16,7 @@
         android:layout_marginTop="187dp"
         android:onClick="Take_Picture"
         android:text="Take Picture"
+        android:layout_gravity = "center_horizontal"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginLeft="8dp"
