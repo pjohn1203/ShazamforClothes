@@ -5,9 +5,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.services.vision.v1.Vision;
+import com.google.api.services.vision.v1.VisionRequestInitializer;
+
 public class MainActivity extends AppCompatActivity {
 
-    @Override
+    Vision.Builder visionBuilder = new Vision.Builder(
+            new NetHttpTransport(),
+            new AndroidJsonFactory(),
+            null);
+
+    Vision vision = visionBuilder.build();
+
+    public void setVisionBuilder(Vision.Builder visionBuilder) {
+        this.visionBuilder = visionBuilder;
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);

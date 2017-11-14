@@ -2,36 +2,55 @@ package com.shazamforclothes.shazamforclothes;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.app.Activity;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.graphics.drawable.Drawable;
 import android.graphics.Bitmap;
+import android.widget.TextView;
 
+import com.github.kittinunf.fuel.Fuel;
+import com.github.kittinunf.fuel.core.FuelError;
+import com.github.kittinunf.fuel.core.Handler;
+import com.github.kittinunf.fuel.core.Request;
+import com.github.kittinunf.fuel.core.Response;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import kotlin.Pair;
+import com.google.api.services.vision.v1.Vision;
 
 public class PictureActivity extends Activity {
+    //picture should be saved to /storage/sdcard/Pictures/CameraSample/"imagename"
 
-    private File imageFile;
     Button buttonCapture;
     ImageView DisplayImage;
     static final int CAM_REQUEST = 1;
+    JSONArray features;
+    JSONObject feature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture);
 
-        Button buttonCapture = (Button) findViewById(R.id.button3);
+        buttonCapture = findViewById(R.id.button3);
         DisplayImage = findViewById(R.id.PictureActivityView);
 
         buttonCapture.setOnClickListener(new View.OnClickListener() {
@@ -47,41 +66,76 @@ public class PictureActivity extends Activity {
 
     }
 
-    private File getFile(){
-
-        File folder = new File("sdcard/camera_app");
-
-        if(!folder.exists()){
-            folder.mkdir();
-        }
-        File image_file = new File(folder, "cam_image");
-        return image_file;
-    }
-
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAM_REQUEST && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
+
             DisplayImage.setImageBitmap(imageBitmap);
+            try {
+                ProcessImage(imageBitmap);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
-    /*
+    public void ProcessImage(Bitmap image) throws JSONException {
+        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 90, byteStream);
+        String base64Data = Base64.encodeToString(byteStream.toByteArray(), Base64.URL_SAFE);
+        String requestURL = "https://vision.googleapis.com/v1/images:annotate?key=" + getResources().getString(R.string.mykey);
+        features = new JSONArray();
+        feature = new JSONObject();
+        feature.put("type" , "LABEL_DETECTION");
+        features.put(feature);
 
-    public void takepicture(View view){
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        imageFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "test.jpg");
-        Uri temp = Uri.fromFile(imageFile);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT , temp);
-        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY , 1);
-        startActivityForResult(intent, 0);
+        JSONObject imageContent = new JSONObject();
+        imageContent.put("content", base64Data);
+
+
+        JSONArray requests = new JSONArray();
+        JSONObject request = new JSONObject();
+        request.put("image", imageContent);
+        request.put("features", features);
+        requests.put(request);
+        JSONObject postData = new JSONObject();
+        postData.put("requests", requests);
+
+        String body = postData.toString();
+
+        Fuel.post(requestURL).header(
+                        new Pair<String, Object>("content-length", body.length()),
+                        new Pair<String, Object>("content-type", "application/json")
+                ).body(body.getBytes()).responseString(new Handler<String>() {
+                    @Override
+                    public void success(@NotNull Request request, @NotNull Response response, String s) {}
+
+                    @Override
+                    public void failure(@NotNull Request request, @NotNull Response response, @NotNull FuelError fuelError) {}
+                });
+
+
+        //iterate through all the tags
+        JSONArray labels = new JSONObject().getJSONArray("responses").getJSONObject(0).getJSONArray("labelAnnotations");
+
+        String results = "";
+
+        for(int i=0;i<labels.length();i++) {
+            results = results +
+                    labels.getJSONObject(i).getString("description") +
+                    "\n";
+        }
+
+// Display the annotations inside the TextView
+        ((TextView)findViewById(R.id.ResultsText)).setText(results);
+
     }
 
-    */
+
 
 
 }
