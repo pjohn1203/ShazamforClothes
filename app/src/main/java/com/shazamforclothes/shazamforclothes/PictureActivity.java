@@ -92,24 +92,28 @@ public class PictureActivity extends Activity {
     }
 
     public void ProcessImage(Bitmap image) throws JSONException {
+        //First, convert image to bitmap and compress to allow vision API to read
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.JPEG, 90, byteStream);
         String base64Data = Base64.encodeToString(byteStream.toByteArray(), Base64.URL_SAFE);
+
+        //Read API ID and URL
         String requestURL = "https://vision.googleapis.com/v1/images:annotate?key=" + getResources().getString(R.string.mykey);
+
+        //Implement JSON arrays to read image
+        //Convert to string to allow system to read tags
         feature.put("type" , "LABEL_DETECTION");
         features.put(feature);
-
         JSONObject imageContent = new JSONObject();
         imageContent.put("content", base64Data);
-
         request.put("image", imageContent);
         request.put("features", features);
         requests.put(request);
         postData.put("requests", requests);
-        String tester = "";
         String body = postData.toString();
 
-
+        //make the actual HTTP Request
+        //this will invoke the vision API making the tags and writing them to a string
         Fuel.post(requestURL)
                 .header(
                         new Pair<String, Object>("content-length", body.length()),
@@ -145,6 +149,8 @@ public class PictureActivity extends Activity {
                         ((TextView)findViewById(R.id.ResultsText)).setText(results);
                     }
 
+
+                    //required failure method
                     @Override
                     public void failure(@NotNull Request request,
                                         @NotNull Response response,
