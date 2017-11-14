@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Base64;
 import android.view.View;
 import android.app.Activity;
@@ -54,6 +55,8 @@ public class PictureActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture);
+        TextView textView = findViewById(R.id.ResultsText);
+        textView.setMovementMethod(new ScrollingMovementMethod());
 
         buttonCapture = findViewById(R.id.button3);
         DisplayImage = findViewById(R.id.PictureActivityView);
@@ -147,23 +150,6 @@ public class PictureActivity extends Activity {
                                         @NotNull Response response,
                                         @NotNull FuelError fuelError) {}
                 });
-/*
-        //iterate through all the tags
-        JSONArray labels = new JSONObject("data").getJSONArray("responses").getJSONObject(0).getJSONArray("labelAnnotations");
 
-        String results = "";
-        for(int i=0;i<labels.length();i++) {
-            results = results +
-                    labels.getJSONObject(i).getString("description") +
-                    "\n";
-        }
-
-// Display the annotations inside the TextView
-        ((TextView)findViewById(R.id.ResultsText)).setText(results);
-*/
     }
-
-
-
-
 }
