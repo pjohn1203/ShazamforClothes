@@ -42,8 +42,13 @@ public class PictureActivity extends Activity {
     Button buttonCapture;
     ImageView DisplayImage;
     static final int CAM_REQUEST = 1;
-    JSONArray features;
-    JSONObject feature;
+    JSONArray features = new JSONArray();
+    JSONObject feature = new JSONObject();
+    JSONArray requests = new JSONArray();
+    JSONObject request = new JSONObject();
+    JSONObject postData = new JSONObject();
+    JSONArray labels;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,42 +93,65 @@ public class PictureActivity extends Activity {
         image.compress(Bitmap.CompressFormat.JPEG, 90, byteStream);
         String base64Data = Base64.encodeToString(byteStream.toByteArray(), Base64.URL_SAFE);
         String requestURL = "https://vision.googleapis.com/v1/images:annotate?key=" + getResources().getString(R.string.mykey);
-        features = new JSONArray();
-        feature = new JSONObject();
         feature.put("type" , "LABEL_DETECTION");
         features.put(feature);
 
         JSONObject imageContent = new JSONObject();
         imageContent.put("content", base64Data);
 
-
-        JSONArray requests = new JSONArray();
-        JSONObject request = new JSONObject();
         request.put("image", imageContent);
         request.put("features", features);
         requests.put(request);
-        JSONObject postData = new JSONObject();
         postData.put("requests", requests);
-
+        String tester = "";
         String body = postData.toString();
 
-        Fuel.post(requestURL).header(
+
+        Fuel.post(requestURL)
+                .header(
                         new Pair<String, Object>("content-length", body.length()),
                         new Pair<String, Object>("content-type", "application/json")
-                ).body(body.getBytes()).responseString(new Handler<String>() {
+                )
+                .body(body.getBytes())
+                .responseString(new Handler<String>() {
                     @Override
-                    public void success(@NotNull Request request, @NotNull Response response, String s) {}
+                    public void success(@NotNull Request request,
+                                        @NotNull Response response,
+                                        String data) {
+                        try {
+                            labels = new JSONObject(data)
+                                    .getJSONArray("responses")
+                                    .getJSONObject(0)
+                                    .getJSONArray("labelAnnotations");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        String results = "";
+
+                        for(int i=0;i<labels.length();i++) {
+                            try {
+                                results = results +
+                                        labels.getJSONObject(i).getString("description") +
+                                        "\n";
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        ((TextView)findViewById(R.id.ResultsText)).setText(results);
+                    }
 
                     @Override
-                    public void failure(@NotNull Request request, @NotNull Response response, @NotNull FuelError fuelError) {}
+                    public void failure(@NotNull Request request,
+                                        @NotNull Response response,
+                                        @NotNull FuelError fuelError) {}
                 });
-
-
+/*
         //iterate through all the tags
-        JSONArray labels = new JSONObject().getJSONArray("responses").getJSONObject(0).getJSONArray("labelAnnotations");
+        JSONArray labels = new JSONObject("data").getJSONArray("responses").getJSONObject(0).getJSONArray("labelAnnotations");
 
         String results = "";
-
         for(int i=0;i<labels.length();i++) {
             results = results +
                     labels.getJSONObject(i).getString("description") +
@@ -132,7 +160,7 @@ public class PictureActivity extends Activity {
 
 // Display the annotations inside the TextView
         ((TextView)findViewById(R.id.ResultsText)).setText(results);
-
+*/
     }
 
 
