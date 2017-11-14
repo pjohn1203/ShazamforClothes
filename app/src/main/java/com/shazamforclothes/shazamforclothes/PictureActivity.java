@@ -11,6 +11,9 @@ import android.app.Activity;
 import android.widget.Button;
 import android.widget.ImageView;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.graphics.drawable.Drawable;
 import android.graphics.Bitmap;
 
@@ -28,22 +31,15 @@ public class PictureActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture);
 
-        Button buttonCapture = (Button)findViewById(R.id.button3);
-        ImageView DisplayImage = (ImageView)findViewById(R.id.PictureActivityView);
+        Button buttonCapture = (Button) findViewById(R.id.button3);
+        DisplayImage = findViewById(R.id.PictureActivityView);
 
-        buttonCapture.setOnClickListener(new View.OnClickListener(){
+        buttonCapture.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
-                /*
-                Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                File file = getFile();
-                camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-                startActivityForResult(camera_intent,CAM_REQUEST);
-                */
-
+            public void onClick(View v) {
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (takePictureIntent.resolveActivity(getPackageManager())!=null){
-                    startActivityForResult(takePictureIntent,CAM_REQUEST);
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takePictureIntent, CAM_REQUEST);
                 }
 
             }
@@ -61,6 +57,8 @@ public class PictureActivity extends Activity {
         File image_file = new File(folder, "cam_image");
         return image_file;
     }
+
+
 
 
     @Override
