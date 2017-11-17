@@ -1,6 +1,7 @@
 package com.shazamforclothes.shazamforclothes;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -40,15 +41,15 @@ import com.google.api.services.vision.v1.Vision;
 public class PictureActivity extends Activity {
     //picture should be saved to /storage/sdcard/Pictures/CameraSample/"imagename"
 
-    Button buttonCapture;
-    ImageView DisplayImage;
+    private Button buttonCapture;
+    private ImageView DisplayImage;
     static final int CAM_REQUEST = 1;
-    JSONArray features = new JSONArray();
-    JSONObject feature = new JSONObject();
-    JSONArray requests = new JSONArray();
-    JSONObject request = new JSONObject();
-    JSONObject postData = new JSONObject();
-    JSONArray labels;
+    private JSONArray features = new JSONArray();
+    private JSONObject feature = new JSONObject();
+    private JSONArray requests = new JSONArray();
+    private JSONObject request = new JSONObject();
+    private JSONObject postData = new JSONObject();
+    private JSONArray labels;
 
 
     @Override
@@ -57,7 +58,8 @@ public class PictureActivity extends Activity {
         setContentView(R.layout.activity_picture);
         TextView textView = findViewById(R.id.ResultsText);
         textView.setMovementMethod(new ScrollingMovementMethod());
-
+        textView.setTextColor(Color.BLACK);
+        textView.setTextSize(25);
         buttonCapture = findViewById(R.id.button3);
         DisplayImage = findViewById(R.id.PictureActivityView);
 

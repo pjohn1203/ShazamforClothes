@@ -24,6 +24,7 @@
 
     <ImageView
         android:id="@+id/PictureActivityView"
+
         android:layout_width="368dp"
         android:layout_height="253dp"
         android:layout_marginLeft="8dp"
