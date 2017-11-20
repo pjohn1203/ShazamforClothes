@@ -138,18 +138,19 @@ public class PictureActivity extends Activity {
                             e.printStackTrace();
                         }
 
+                        //String Array used for tags, String used to print
                         List<String> tags = new ArrayList<String>();
                         String LabelString = "";
 
                         for(int i=0;i<labels.length();i++) {
                             try {
                                 tags.add(labels.getJSONObject(i).getString("description") + "\n");
-                                //results = results + labels.getJSONObject(i).getString("description") + "\n";
-
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
+
+                        //Get info from array to put into a string for textview
                         for(int i = 0; i < tags.size(); i++){
                             LabelString += tags.get(i);
                         }
