@@ -18,7 +18,9 @@ import android.widget.ImageView;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import android.graphics.drawable.Drawable;
 import android.graphics.Bitmap;
@@ -136,19 +138,23 @@ public class PictureActivity extends Activity {
                             e.printStackTrace();
                         }
 
-                        String results = "";
+                        List<String> tags = new ArrayList<String>();
+                        String LabelString = "";
 
                         for(int i=0;i<labels.length();i++) {
                             try {
-                                results = results +
-                                        labels.getJSONObject(i).getString("description") +
-                                        "\n";
+                                tags.add(labels.getJSONObject(i).getString("description") + "\n");
+                                //results = results + labels.getJSONObject(i).getString("description") + "\n";
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
+                        for(int i = 0; i < tags.size(); i++){
+                            LabelString += tags.get(i);
+                        }
 
-                        ((TextView)findViewById(R.id.ResultsText)).setText(results);
+                        ((TextView)findViewById(R.id.ResultsText)).setText(LabelString);
                     }
 
 
