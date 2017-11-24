@@ -52,6 +52,7 @@ public class PictureActivity extends Activity {
     private JSONObject request = new JSONObject();
     private JSONObject postData = new JSONObject();
     private JSONArray labels;
+    private List<String> tags;
 
 
     @Override
@@ -139,7 +140,8 @@ public class PictureActivity extends Activity {
                         }
 
                         //String Array used for tags, String used to print
-                        List<String> tags = new ArrayList<String>();
+                        //TODO: This is the string array used to search web
+                        tags = new ArrayList<String>();
                         String LabelString = "";
 
                         for(int i=0;i<labels.length();i++) {
@@ -156,6 +158,7 @@ public class PictureActivity extends Activity {
                         }
 
                         ((TextView)findViewById(R.id.ResultsText)).setText(LabelString);
+                        SearchWebForImages(tags);
                     }
 
 
@@ -165,6 +168,20 @@ public class PictureActivity extends Activity {
                                         @NotNull Response response,
                                         @NotNull FuelError fuelError) {}
                 });
+
+
+    }
+
+    //TODO: Make Method to search the web using ArrayList "tags"
+    //TODO: Refine search more, maybe call a better method
+    //TODO: Save images from google shops, put in the UI
+    public void SearchWebForImages(List<String> tags){
+        //CODE HERE
+        String SearchString = "http://www.google.com/#q=" + tags.get(0) + ", " + tags.get(1) + ", " + tags.get(3);
+        Uri uri = Uri.parse(SearchString);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
+
 
     }
 }
