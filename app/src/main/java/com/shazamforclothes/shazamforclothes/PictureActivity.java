@@ -177,7 +177,8 @@ public class PictureActivity extends Activity {
     //TODO: Save images from google shops, put in the UI
     public void SearchWebForImages(List<String> tags){
         //CODE HERE
-        String SearchString = "http://www.google.com/#q=" + tags.get(0) + ", " + tags.get(1) + ", " + tags.get(3);
+        String SearchString = "http://www.google.com/search?biw=1536&bih=710&tbm=shop&ei=96ckWqvMF4LWjwOSh5GYBA&q="
+                + tags.get(0) + ", " + tags.get(1) + ", " + tags.get(3) + ", " + tags.get(4) + ", " + tags.get(5);
         Uri uri = Uri.parse(SearchString);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
