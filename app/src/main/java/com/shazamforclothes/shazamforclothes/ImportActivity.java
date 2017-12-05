@@ -1,5 +1,6 @@
 package com.shazamforclothes.shazamforclothes;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,6 +31,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import kotlin.Pair;
@@ -48,6 +50,7 @@ public class ImportActivity extends AppCompatActivity {
     private JSONObject request = new JSONObject();
     private JSONObject postData = new JSONObject();
     private JSONArray labels;
+    Context appContext;
 
 
     @Override
@@ -141,7 +144,7 @@ public class ImportActivity extends AppCompatActivity {
                         }
 
                         //String Array used for tags, String used to print
-                        List<String> tags = new ArrayList<String>();
+                        List<String> tags = new ArrayList<>();
                         String LabelString = "";
 
                         for(int i=0;i<labels.length();i++) {
@@ -173,19 +176,23 @@ public class ImportActivity extends AppCompatActivity {
 
     //TODO: CREATE ALGORITHM TO REFINE SEARCH
     public void SearchWebForImages(List<String> tags){
-        String ClothingColor = "";
-        String ClothingStyle = "";
-        String ClothingFormality = "";
-        System.out.println(tags.size());
+        List<String> colorList = getColor();
+        String clothingColor = "";
         for(int i = 0; i <tags.size(); i++){
-            if(tags.get(i) == "Blue")
-                ClothingColor = "Blue";
+            if(colorList.contains(tags.get(i)))
+                clothingColor = tags.get(i);
         }
         String SearchString = "http://www.google.com/search?biw=1536&bih=710&tbm=shop&ei=96ckWqvMF4LWjwOSh5GYBA&q="
-                + tags.get(0) + ", " + tags.get(1) + ", " + tags.get(2) + ", " + ClothingColor;
+                + clothingColor + tags.get(1);
         Uri uri = Uri.parse(SearchString);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
+    }
+    public List<String> getColor(){
+        String[] tempColors;
+        tempColors = appContext.getResources().getStringArray(R.array.colorList);
+        List<String> colorDictionary = Arrays.asList(tempColors);
+        return colorDictionary;
     }
 
 }
