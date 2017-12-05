@@ -158,6 +158,7 @@ public class ImportActivity extends AppCompatActivity {
                         }
 
                         ((TextView)findViewById(R.id.Results)).setText(LabelString);
+                        SearchWebForImages(tags);
                     }
 
 
@@ -169,4 +170,22 @@ public class ImportActivity extends AppCompatActivity {
                 });
 
     }
+
+    //TODO: CREATE ALGORITHM TO REFINE SEARCH
+    public void SearchWebForImages(List<String> tags){
+        String ClothingColor = "";
+        String ClothingStyle = "";
+        String ClothingFormality = "";
+        System.out.println(tags.size());
+        for(int i = 0; i <tags.size(); i++){
+            if(tags.get(i) == "Blue")
+                ClothingColor = "Blue";
+        }
+        String SearchString = "http://www.google.com/search?biw=1536&bih=710&tbm=shop&ei=96ckWqvMF4LWjwOSh5GYBA&q="
+                + tags.get(0) + ", " + tags.get(1) + ", " + tags.get(2) + ", " + ClothingColor;
+        Uri uri = Uri.parse(SearchString);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
+    }
+
 }

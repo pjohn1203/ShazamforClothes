@@ -172,9 +172,6 @@ public class PictureActivity extends Activity {
 
     }
 
-    //TODO: Make Method to search the web using ArrayList "tags"
-    //TODO: Refine search more, maybe call a better method
-    //TODO: Save images from google shops, put in the UI
     public void SearchWebForImages(List<String> tags){
         //CODE HERE
         String SearchString = "http://www.google.com/search?biw=1536&bih=710&tbm=shop&ei=96ckWqvMF4LWjwOSh5GYBA&q="
@@ -182,7 +179,5 @@ public class PictureActivity extends Activity {
         Uri uri = Uri.parse(SearchString);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
-
-
     }
 }
