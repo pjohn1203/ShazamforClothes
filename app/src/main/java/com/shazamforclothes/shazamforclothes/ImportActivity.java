@@ -174,16 +174,23 @@ public class ImportActivity extends AppCompatActivity {
 
     }
 
-    //TODO: CREATE ALGORITHM TO REFINE SEARCH
     public void SearchWebForImages(List<String> tags){
-        List<String> colorList = getColor();
+        //List<String> colorList = getColor();
         String clothingColor = "";
+        /*
         for(int i = 0; i <tags.size(); i++){
             if(colorList.contains(tags.get(i)))
                 clothingColor = tags.get(i);
         }
+        */
+        for(int i = 0; i < tags.size(); i++){
+            if(tags.get(i) == "Blue")
+                clothingColor = "Blue";
+            else if(tags.get(i) == "Red")
+                clothingColor = "Red";
+        }
         String SearchString = "http://www.google.com/search?biw=1536&bih=710&tbm=shop&ei=96ckWqvMF4LWjwOSh5GYBA&q="
-                + clothingColor + tags.get(1);
+                + clothingColor + ", " + tags.get(0) + ", " + tags.get(1)+ ", " + tags.get(2) + ", " + tags.get(3);
         Uri uri = Uri.parse(SearchString);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
