@@ -41,7 +41,6 @@ import kotlin.Pair;
 import com.google.api.services.vision.v1.Vision;
 
 public class PictureActivity extends Activity {
-    //picture should be saved to /storage/sdcard/Pictures/CameraSample/"imagename"
 
     private Button buttonCapture;
     private ImageView DisplayImage;
@@ -139,8 +138,6 @@ public class PictureActivity extends Activity {
                             e.printStackTrace();
                         }
 
-                        //String Array used for tags, String used to print
-                        //TODO: This is the string array used to search web
                         tags = new ArrayList<String>();
                         String LabelString = "";
 
@@ -173,7 +170,6 @@ public class PictureActivity extends Activity {
     }
 
     public void SearchWebForImages(List<String> tags){
-        //CODE HERE
         String SearchString = "http://www.google.com/search?biw=1536&bih=710&tbm=shop&ei=96ckWqvMF4LWjwOSh5GYBA&q="
                 + tags.get(0) + ", " + tags.get(1) + ", " + tags.get(3) + ", " + tags.get(4) + ", " + tags.get(5);
         Uri uri = Uri.parse(SearchString);
