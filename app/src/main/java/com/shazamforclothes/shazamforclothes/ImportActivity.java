@@ -26,6 +26,8 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -190,6 +192,7 @@ public class ImportActivity extends AppCompatActivity {
                 clothingColor = "Red";
         }
 
+
         String SearchString = "http://www.google.com/search?biw=1536&bih=710&tbm=shop&ei=96ckWqvMF4LWjwOSh5GYBA&q="
                 + clothingColor + ", " + tags.get(0) + ", " + tags.get(1)+ ", " + tags.get(2) + ", " + tags.get(3);
         Uri uri = Uri.parse(SearchString);
@@ -202,5 +205,9 @@ public class ImportActivity extends AppCompatActivity {
         List<String> colorDictionary = Arrays.asList(tempColors);
         return colorDictionary;
     }
+
+
+
+
 
 }
