@@ -189,6 +189,7 @@ public class ImportActivity extends AppCompatActivity {
             else if(tags.get(i) == "Red")
                 clothingColor = "Red";
         }
+
         String SearchString = "http://www.google.com/search?biw=1536&bih=710&tbm=shop&ei=96ckWqvMF4LWjwOSh5GYBA&q="
                 + clothingColor + ", " + tags.get(0) + ", " + tags.get(1)+ ", " + tags.get(2) + ", " + tags.get(3);
         Uri uri = Uri.parse(SearchString);
