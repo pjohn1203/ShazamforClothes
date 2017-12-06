@@ -186,14 +186,19 @@ public class ImportActivity extends AppCompatActivity {
         }
         */
         for(int i = 0; i < tags.size(); i++){
-            if(tags.get(i) == "Blue")
+            if(tags.get(i).equals("blue"))
                 clothingColor = "Blue";
-            else if(tags.get(i) == "Red")
+            else if(tags.get(i) == "red")
                 clothingColor = "Red";
+            else if(tags.get(i) == "brown")
+                clothingColor = "Brown";
+            else if(tags.get(i).equals("black")) {
+                clothingColor = "nike";
+            }
         }
 
-
-        String SearchString = "http://www.google.com/search?biw=1536&bih=710&tbm=shop&ei=96ckWqvMF4LWjwOSh5GYBA&q="
+        String SearchString;
+        SearchString = "http://www.google.com/search?biw=1536&bih=710&tbm=shop&ei=96ckWqvMF4LWjwOSh5GYBA&q="
                 + clothingColor + ", " + tags.get(0) + ", " + tags.get(1)+ ", " + tags.get(2) + ", " + tags.get(3);
         Uri uri = Uri.parse(SearchString);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
